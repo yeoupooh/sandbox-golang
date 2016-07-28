@@ -13,6 +13,7 @@ import (
 type jsonobject struct {
     DriverName string
 		Url string
+		Query string
 }
 
 func main() {
@@ -22,14 +23,15 @@ func main() {
 		fmt.Printf("File error: %v\n", e)
 		os.Exit(1)
 	}
-	fmt.Printf("%s\n", string(file))
+	// fmt.Printf("%s\n", string(file))
 
 	// parse config
 	var jsontype jsonobject
 	json.Unmarshal(file, &jsontype)
-	fmt.Printf("Results: %v\n", jsontype)
+	// fmt.Printf("Results: %v\n", jsontype)
 	fmt.Printf("Driver Name: %v\n", jsontype.DriverName)
 	fmt.Printf("URL: %v\n", jsontype.Url)
+	fmt.Printf("Query: %v\n", jsontype.Query)
 
 	// open db
 	db, err := sql.Open(jsontype.DriverName, jsontype.Url)
@@ -38,7 +40,7 @@ func main() {
 	}
 
 	// execute query
-	rows, err := db.Query("SELECT * FROM E2_IMG")
+	rows, err := db.Query(jsontype.Query)
 	if err != nil {
 		log.Fatal(err)
 	} else {
