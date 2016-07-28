@@ -1,0 +1,4 @@
+{
+    "driverName": "postgres",
+    "url": "postgres://username:password@server/dbname?sslmode=disable"
+}
